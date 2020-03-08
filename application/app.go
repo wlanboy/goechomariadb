@@ -38,10 +38,10 @@ func (goservice *GoService) Run() {
 	password := goservice.Config.DbPass
 	dbName := goservice.Config.DbName
 	dbHost := goservice.Config.DbHost
-	dbPort := goservice.Config.DbPort
+	//dbPort := goservice.Config.DbPort
 	dbType := goservice.Config.DbType
 
-	dbURI := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, dbPort, username, dbName, password)
+	dbURI := fmt.Sprintf("%s:%s@(%s)/%s?charset=utf8&parseTime=True&loc=Local", username, password, dbHost, dbName)
 	//fmt.Println(dbURI)
 	conn, err := gorm.Open(dbType, dbURI)
 	if err != nil {
