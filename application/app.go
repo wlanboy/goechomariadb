@@ -47,6 +47,8 @@ func (goservice *GoService) Run() {
 	if err != nil {
 		fmt.Print(err)
 	}
+	//Debug SQL commands
+	//conn.LogMode(true)
 
 	goservice.DB = conn
 	goservice.DB.Debug().AutoMigrate(&model.Event{})
@@ -68,7 +70,7 @@ func (goservice *GoService) Run() {
 	// Map Resthandler
 	e.GET("/api/v1/event", goservice.GetAll)
 	e.POST("/api/v1/event", goservice.PostCreate)
-	e.GET("/api/v1/event/{id}", goservice.GetByID)
+	e.GET("/api/v1/event/:id", goservice.GetByID)
 
 	// Wait for interrupt signal to gracefully shutdown the server with
 	// a timeout of 10 seconds.
