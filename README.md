@@ -1,5 +1,5 @@
 # goechomariadb
-Golang echo based rest service using a mariadb
+Golang rest service based on echo and gorm using mariadb
 
 # build
 * go get -d -v
