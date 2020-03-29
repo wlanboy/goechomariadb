@@ -1,3 +1,5 @@
+![Go](https://github.com/wlanboy/goechomariadb/workflows/Go/badge.svg)
+
 # goechomariadb
 Golang rest service based on echo and gorm using mariadb
 
