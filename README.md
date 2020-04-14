@@ -30,3 +30,4 @@ Golang rest service based on echo and gorm using mariadb
 # call
 * curl -X POST http://127.0.0.1:8000/api/v1/event -H 'Content-Type: application/json' -d '{"name": "test", "type": "info"}'
 * curl -X GET http://127.0.0.1:8000/api/v1/event 
+* curl -X GET http://127.0.0.1:8000/api/v1/events&page=1&size=10
