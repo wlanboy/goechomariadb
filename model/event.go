@@ -2,6 +2,7 @@ package model
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -77,11 +78,21 @@ func GetAllEvents(db *gorm.DB) (string, []*Event) {
 }
 
 /*GetAllEventsPaged array*/
-func GetAllEventsPaged(page int, size int, db *gorm.DB) (string, []*Event) {
+func GetAllEventsPaged(page string, size string, db *gorm.DB) (string, []*Event) {
+
+	pageInt, pageError := strconv.Atoi(page)
+	if pageError != nil {
+		pageInt = 1
+	}
+	sizeInt, sizeError := strconv.Atoi(size)
+	if sizeError != nil {
+		sizeInt = 10
+	}
+	offset := (pageInt - 1) * sizeInt
 
 	events := make([]*Event, 0)
 	pagedEvents := db.Model(&Event{})
-	offset := (page - 1) * size
+
 	err := pagedEvents.Limit(size).Offset(offset).Find(&events).Error
 	if err != nil {
 		return "", nil
