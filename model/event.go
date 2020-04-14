@@ -59,7 +59,7 @@ func GetEventByID(id string, db *gorm.DB) (string, *Event) {
 	event := Event{}
 	err := db.Where("uuid = ?", id).First(&event).Error
 	if err != nil {
-		return fmt.Sprintf("No event found with id %d", id), nil
+		return fmt.Sprintf("No event found with id %s", id), nil
 	}
 	return "", &event
 }
@@ -69,6 +69,20 @@ func GetAllEvents(db *gorm.DB) (string, []*Event) {
 
 	events := make([]*Event, 0)
 	err := db.Find(&events).Error
+	if err != nil {
+		return "", nil
+	}
+
+	return "", events
+}
+
+/*GetAllEventsPaged array*/
+func GetAllEventsPaged(page int, size int, db *gorm.DB) (string, []*Event) {
+
+	events := make([]*Event, 0)
+	pagedEvents := db.Model(&Event{})
+	offset := (page - 1) * size
+	err := pagedEvents.Limit(size).Offset(offset).Find(&events).Error
 	if err != nil {
 		return "", nil
 	}
