@@ -17,6 +17,23 @@ func (goservice *GoService) GetAll(c echo.Context) (err error) {
 	return c.JSON(http.StatusOK, resp)
 }
 
+//GetAllPaged e.GET("/api/v1/events/:page&:size", GetAllPaged)
+func (goservice *GoService) GetAllPaged(c echo.Context) (err error) {
+	page := c.Param("page")
+	size := c.Param("size")
+	if page == "" {
+		page = "1"
+	}
+	if size == "" {
+		size = "10"
+	}
+	errdb, resp := model.GetAllEventsPaged(page, size, goservice.DB)
+	if errdb != "" {
+		return handleModelError(c, errdb)
+	}
+	return c.JSON(http.StatusOK, resp)
+}
+
 //GetByID e.GET("/api/v1/event/:id", GetByID)
 func (goservice *GoService) GetByID(c echo.Context) (err error) {
 	// Event ID from path `event/:id`
