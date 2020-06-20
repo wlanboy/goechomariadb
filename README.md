@@ -24,6 +24,13 @@ Golang rest service based on echo and gorm using mariadb
 * GOOS=linux GOARCH=arm64 go build (Odroid C2 build)
 * docker build -t goechomariadb .
 
+## Docker publish to github registry
+- docker tag goechomariadb:latest docker.pkg.github.com/wlanboy/goechomariadb/goechomariadb:latest
+- docker push docker.pkg.github.com/wlanboy/goechomariadb/goechomariadb:latest
+
+## Docker Registry repro
+- https://github.com/wlanboy/goechomariadb/packages/278504
+
 # run docker container
 * docker run -d -p 8000:8000 goechomariadb
 
