@@ -1,12 +1,17 @@
-FROM busybox:1.31
+FROM golang:1.15-alpine3.12 as builder
+RUN apk add --no-cache git
+RUN apk add --no-cache build-base
+RUN mkdir /app
+ADD . /app
+WORKDIR /app
+RUN go get -d -v
+RUN go build -v -o main .
 
-RUN mkdir -p /usr/local/share/busybox && echo "/bin/busybox sh" > /usr/local/share/busybox/sh && chmod +x /usr/local/share/busybox/sh
-RUN addgroup -S kanban && adduser -S kanban -G kanban -s /usr/local/share/busybox/sh
-
-COPY ./goechomariadb /home/kanban
-
-USER kanban
-
+FROM alpine:3.12
+RUN apk --no-cache add ca-certificates
+WORKDIR /root/
+COPY --from=builder /app/main .
+COPY --from=builder /app/.env .
 EXPOSE 8000
 
-CMD ["/home/kanban/goechomariadb"]
+CMD ["/root/main"]
