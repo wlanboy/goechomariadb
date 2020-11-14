@@ -34,7 +34,11 @@ Golang rest service based on echo and gorm using mariadb
 # run docker container
 * docker run -d -p 8000:8000 goechomariadb
 
-# call
+# call to add event
 * curl -X POST http://127.0.0.1:8000/api/v1/event -H 'Content-Type: application/json' -d '{"name": "test", "type": "info"}'
+# call to get all event
 * curl -X GET http://127.0.0.1:8000/api/v1/event 
+# call to get all event paged
 * curl -X GET http://127.0.0.1:8000/api/v1/events&page=1&size=10
+# call to get metrics
+* curl -X GET http://127.0.0.1:8000/metrics

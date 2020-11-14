@@ -8,11 +8,13 @@ import (
 	"time"
 
 	model "../model"
+	echoPrometheus "github.com/globocom/echo-prometheus"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/labstack/gommon/log"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 /*ConfigParameters for App*/
@@ -66,11 +68,13 @@ func (goservice *GoService) Run() {
 	// Root level middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	e.Use(echoPrometheus.MetricsMiddleware())
 
 	// Map Resthandler
 	e.GET("/api/v1/event", goservice.GetAll)
 	e.POST("/api/v1/event", goservice.PostCreate)
 	e.GET("/api/v1/event/:id", goservice.GetByID)
+	e.GET("/metrics", echo.WrapHandler(promhttp.Handler()))
 
 	// Wait for interrupt signal to gracefully shutdown the server with
 	// a timeout of 10 seconds.
